@@ -1,28 +1,35 @@
 pipeline {
     agent any
+    tools {
+        maven 'maven'
+    }
     stages {
-        stage ('Compile Stage') {
-
-            steps {
-                withMaven(maven : 'apache-maven-3.6.3') {
-                    bat 'mvn clean compile'
-                }
+        stage ('build') {
+          steps{
+            sh 'mvn -B -DskipTests  clean install'
             }
         }
-        stage ('Testing Stage') {
-
-            steps {
-                withMaven(maven : 'apache-maven-3.6.3') {
-                    bat 'mvn test'
-                }
+        stage ('test') {
+          steps{
+            script{
+              sh 'll'
+             }
             }
+          
+          post {
+            success {
+                 echo "Success"
+                 }
+               }
+            failure {
+                 echo "Failure"
+                }
         }
-        stage ('Install Stage') {
-            steps {
-                withMaven(maven : 'apache-maven-3.6.3') {
-                    bat 'mvn install'
-                }
-            }
+        stage('deploy') {
+          steps {
+             echo "Deploy to aws servers via terraform and ansible"
+             }
         }
     }
 }
+
