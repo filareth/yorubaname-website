@@ -12,7 +12,7 @@ pipeline {
       stage ('test') {
         steps{
           script{
-            sh 'll'
+            sh 'ls -ln'
             }          
         post {
           success {
@@ -27,7 +27,17 @@ pipeline {
       stage('deploy') {
         steps {
           echo "Deploy to aws servers via terraform and ansible"
+          stage('Copy Archive') {
+            steps {
+              script {
+                step ([$class: 'CopyArtifact',
+                    projectName: 'ekzamen',
+                    filter: "ekzamen*.zip",
+                    target: '.']);
+              }
+            }
           }
         }
       }
+    }
 }
