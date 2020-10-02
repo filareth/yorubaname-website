@@ -9,6 +9,7 @@ pipeline {
           // Выполняем только сборку и модульное тестирование с пропуском интеграционного тестирования
           sh 'mvn -B -DskipTests  clean install'
         }
+      }
       stage ('test') {
         steps{
           script{
@@ -29,5 +30,5 @@ pipeline {
           echo "Deploy to aws servers via terraform and ansible"
         }
       }
-    }
+    
 }
