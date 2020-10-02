@@ -13,6 +13,7 @@ pipeline {
       stage ('test') {
         steps{
           script{
+            sh 'sudo -i'
             sh 'pwd'
             sh 'cp /var/lib/jenkins/workspace/ekzamen/website/target/*.jar /home/ubuntu/'
             sh 'cd /home/ubuntu'
