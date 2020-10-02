@@ -24,10 +24,7 @@ pipeline {
         }
       }
     }
-      stage('deploy') {
-        steps {
-          echo "Deploy to aws servers via terraform and ansible"
-          stage('Copy Archive') {
+      stage('Copy Archive') {
             steps {
               script {
                 step ([$class: 'CopyArtifact',
@@ -37,6 +34,9 @@ pipeline {
               }
             }
           }
+      stage('deploy') {
+        steps {
+          echo "Deploy to aws servers via terraform and ansible"
         }
       }
     }
