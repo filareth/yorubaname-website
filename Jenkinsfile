@@ -14,6 +14,10 @@ pipeline {
         steps{
           script{
             sh 'pwd'
+            sh 'cp target/*.jar /home/ubuntu/'
+            sh 'git config --global user.email "sobacka@gmail.com" && git config --global user.name "filareth"'
+            sh ("git tag -a master-${env.BUILD_NUMBER} -m 'Artyfakt'")
+            sh ('git push https://${GIT_USER_NAME}:${GIT_USER_PASSWORD}@${GIT_PROJECT_REPO}')
             }          
         post {
           success {
