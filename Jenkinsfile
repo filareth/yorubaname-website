@@ -29,6 +29,5 @@ pipeline {
         steps {
           echo "Deploy to aws servers via terraform and ansible"
         }
-      }
-    
+      }   
 }
