@@ -29,10 +29,9 @@ pipeline {
         }
       }
     }
-      stage('Static Code Analysis'){
-        // Sonarqube must be configured in the Jenkins: Configuration -> Add SonarQube
-      withSonarQubeEnv('my-sonarqube-demo') {
-        sh 'mvn clean verify sonar:sonar -Dsonar.projectVersion=$BUILD_NUMBER'
+      stage ('Static Code Analysis') {
+        withSonarQubeEnv('my-sonarqube-demo') {
+          sh 'mvn clean verify sonar:sonar -Dsonar.projectVersion=$BUILD_NUMBER'
         }
       }
       stage('deploy') {
