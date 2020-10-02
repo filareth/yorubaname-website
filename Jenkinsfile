@@ -29,11 +29,6 @@ pipeline {
         }
       }
     }
-      stage ('Static Code Analysis') {
-        withSonarQubeEnv('my-sonarqube-demo') {
-          sh 'mvn clean verify sonar:sonar -Dsonar.projectVersion=$BUILD_NUMBER'
-        }
-      }
       stage('deploy') {
         steps {
           echo "Deploy to aws servers via terraform and ansible"
