@@ -6,7 +6,12 @@ pipeline {
     stages {
       stage ('build') {
         steps{
+          // Выполняем только сборку и модульное тестирование с пропуском интеграционного тестирования
           sh 'mvn -B -DskipTests  clean install'
+          // Публикация отчетов модульных тестов JUnit
+          junit '**/target/surefire-reports/TEST-*.xml'
+          // Архивировать артефакты
+          archiveArtifacts 'target/*.war'
           }
         }
       stage ('test') {
@@ -24,16 +29,12 @@ pipeline {
         }
       }
     }
-      stage('Copy Archive') {
-            steps {
-              script {
-                step ([$class: 'CopyArtifact',
-                    projectName: 'ekzamen',
-                    filter: "ekzamen*.zip",
-                    target: '.']);
-              }
-            }
-          }
+      stage('Static Code Analysis'){
+        // Sonarqube must be configured in the Jenkins: Configuration -> Add SonarQube
+      withSonarQubeEnv('my-sonarqube-demo') {
+        sh 'mvn clean verify sonar:sonar -Dsonar.projectVersion=$BUILD_NUMBER'
+        }
+      }
       stage('deploy') {
         steps {
           echo "Deploy to aws servers via terraform and ansible"
