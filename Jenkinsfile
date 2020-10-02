@@ -8,16 +8,11 @@ pipeline {
         steps{
           // Выполняем только сборку и модульное тестирование с пропуском интеграционного тестирования
           sh 'mvn -B -DskipTests  clean install'
-          // Публикация отчетов модульных тестов JUnit
-          junit '**/target/surefire-reports/TEST-*.xml'
-          // Архивировать артефакты
-          archiveArtifacts 'target/*.war'
-          }
         }
       stage ('test') {
         steps{
           script{
-            sh 'ls -ln'
+            sh 'pwd'
             }          
         post {
           success {
